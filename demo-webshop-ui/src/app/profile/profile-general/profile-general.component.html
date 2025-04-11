@@ -1,0 +1,45 @@
+<div class="auth-page">
+  <div class="container page">
+    <div class="row">
+
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <p class="p-2 error-text">{{ error }}</p>
+        <p class="p-2">Username: {{ currentUser?.username }}</p>
+
+        <form [formGroup]="resetPasswordForm" (ngSubmit)="submitForm()">
+          <fieldset [disabled]="isSubmitting">
+            <fieldset class="form-group p-2">
+              <input
+                formControlName="currentPassword"
+                placeholder="Current password"
+                class="form-control form-control-md"
+                type="password"/>
+            </fieldset>
+            <fieldset class="form-group p-2">
+              <input
+                formControlName="newPassword"
+                placeholder="New password"
+                class="form-control form-control-md"
+                type="password" />
+            </fieldset>
+            <fieldset class="form-group p-2">
+              <input
+                formControlName="reNewPassword"
+                placeholder="Repeat new password"
+                class="form-control form-control-md"
+                type="password" />
+            </fieldset>
+            <div class="p-2">
+              <button class="btn btn-md btn-primary"
+            [disabled]="!(resetPasswordForm.valid && resetPasswordForm.value.newPassword == resetPasswordForm.value.reNewPassword)"
+            type="submit">
+              Apply New Password
+            </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<table class="table table-light">
+  <tbody>
+  <tr>
+    <th scope="row">Description</th>
+    <td>{{ transaction?.description }}</td>
+  </tr>
+  <tr>
+    <th scope="row">Product Name</th>
+    <td><a routerLink="/products/{{ product?.id }}">{{ product?.name }}</a></td>
+  </tr>
+  <tr>
+    <th scope="row">Product Price</th>
+    <td>{{ product?.price }}</td>
+  </tr>
+  <tr>
+    <th scope="row">Created At</th>
+    <td>{{ transaction?.createdAt }}</td>
+  </tr>
+  <tr *ngIf="isAdmin">
+    <th scope="row">User</th>
+    <td><a routerLink="/users/{{ transaction?.user?.id }}">{{ transaction?.user?.username }}</a></td>
+  </tr>
+  </tbody>
+</table>

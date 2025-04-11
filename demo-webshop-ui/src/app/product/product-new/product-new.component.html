@@ -1,0 +1,21 @@
+<div *ngIf="isAdmin">
+  <form [formGroup]="productAdminForm">
+    <fieldset [disabled]="isSubmitting">
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="name"
+          type="text"
+          placeholder="Product Name"/>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="price"
+          type="number"
+          placeholder="Product Price"/>
+      </fieldset>
+    </fieldset>
+
+    <p class="mb-3 p-2"><button type="button" class="btn btn-success" [disabled]="!productAdminForm.valid"  (click)="submitAdminForm()">Create Product</button></p>
+  </form>
+</div>

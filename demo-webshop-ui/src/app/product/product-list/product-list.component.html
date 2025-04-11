@@ -1,0 +1,50 @@
+<div *ngIf="isAdmin">
+  <a class="btn btn-primary" routerLink="/products/new">Add</a>
+</div>
+<table class="table table-light">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Price</th>
+    <th scope="col">Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of products">
+    <th scope="row">{{ product.id }}</th>
+    <td><a routerLink="/products/{{ product.id }}">{{ product.name }}</a></td>
+    <td>{{ product.price | currency:'USD' }}</td>
+    <td>{{ product.createdAt | date:'medium' }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<div>
+  <div class="row">
+      <div class="col-md-9" style="padding-left: 5%">
+
+          <ngb-pagination [(page)]="pageNumber"
+                          [pageSize]="pageSize"
+                          [collectionSize]="totalElements"
+                          [maxSize]="5"
+                          [boundaryLinks]="true"
+                          (pageChange)="listValues()">
+
+          </ngb-pagination>
+
+      </div>
+
+      <div class="col-md-3 mt-2" style="text-align: right;">
+          <span class="mr-2">Page Size </span>
+
+          <select #pageSizeSelect (change)="updatePageSize(pageSizeSelect.value)">
+              <option>5</option>
+              <option selected="true">10</option>
+              <option>20</option>
+              <option>50</option>
+          </select>
+      </div>
+
+  </div>
+</div>

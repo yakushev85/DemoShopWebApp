@@ -1,0 +1,49 @@
+<table class="table table-light">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Description</th>
+    <th scope="col">Product Name</th>
+    <th scope="col">Created At</th>
+    <th scope="col" *ngIf="isAdmin">User</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let transaction of transactions">
+    <th scope="row"><a routerLink="/transactions/{{ transaction.id }}">{{ transaction.id }}</a></th>
+    <td>{{ transaction.description }}</td>
+    <td><a routerLink="/products/{{ transaction.product.id }}">{{ transaction.product.name }}</a></td>
+    <td>{{ transaction.createdAt | date:'medium' }}</td>
+    <td *ngIf="isAdmin"><a routerLink="/users/{{ transaction.user?.id }}">{{ transaction.user?.username }}</a></td>
+  </tr>
+  </tbody>
+</table>
+
+<div>
+  <div class="row">
+      <div class="col-md-9" style="padding-left: 5%">
+
+          <ngb-pagination [(page)]="pageNumber"
+                          [pageSize]="pageSize"
+                          [collectionSize]="totalElements"
+                          [maxSize]="5"
+                          [boundaryLinks]="true"
+                          (pageChange)="listValues()">
+
+          </ngb-pagination>
+
+      </div>
+
+      <div class="col-md-3 mt-2" style="text-align: right;">
+          <span class="mr-2">Page Size </span>
+
+          <select #pageSizeSelect (change)="updatePageSize(pageSizeSelect.value)">
+              <option>5</option>
+              <option selected="true">10</option>
+              <option>20</option>
+              <option>50</option>
+          </select>
+      </div>
+
+  </div>
+</div>

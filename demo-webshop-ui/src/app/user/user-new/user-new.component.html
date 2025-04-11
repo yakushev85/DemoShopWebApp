@@ -1,0 +1,36 @@
+<div *ngIf="isAdmin">
+  <form [formGroup]="userForm">
+    <fieldset [disabled]="isSubmitting">
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="username"
+          type="text"
+          placeholder="Username"/>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="password"
+          type="password"
+          placeholder="Password"/>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="repassword"
+          type="password"
+          placeholder="Re-enter password"/>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <select class="form-control form-control-md" formControlName="role">
+          <option value="">Default</option>
+          <option value="admin">Admin</option>
+          <option value="locked">Locked</option>
+        </select>
+      </fieldset>
+    </fieldset>
+
+    <p class="mb-3 p-2"><button type="button" class="btn btn-success" [disabled]="!(userForm.valid && (userForm.value.password == userForm.value.repassword))"  (click)="submitForm()">New User</button></p>
+  </form>
+</div>

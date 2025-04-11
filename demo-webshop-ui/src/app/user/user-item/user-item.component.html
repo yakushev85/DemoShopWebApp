@@ -1,0 +1,31 @@
+<div *ngIf="isAdmin">
+  <p>ID: {{ user?.id }} Username: {{ user?.username }}</p>
+
+  <form [formGroup]="userForm">
+    <fieldset [disabled]="isSubmitting">
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="password"
+          type="password"
+          placeholder="New Password"/>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="repassword"
+          type="password"
+          placeholder="Re-enter new Password"/>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <select class="form-control form-control-md" formControlName="role" [value]="user?.role">
+          <option value="">Default</option>
+          <option value="admin">Admin</option>
+          <option value="locked">Locked</option>
+        </select>
+      </fieldset>
+    </fieldset>
+
+    <p class="mb-3 p-2"><button type="button" class="btn btn-success" [disabled]="!(userForm.value.password == userForm.value.repassword && userForm.valid)"  (click)="submitForm()">Update User</button></p>
+  </form>
+</div>

@@ -1,0 +1,62 @@
+<div *ngIf="isAdmin">
+  <form [formGroup]="productAdminForm">
+    <fieldset [disabled]="isSubmitting">
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="id"
+          type="number"
+          readonly="true"
+          [value]="product?.id"/>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="name"
+          type="text"
+          [value]="product?.name"
+          placeholder="Product Name"/>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <input class="form-control form-control-md"
+          formControlName="price"
+          type="number"
+          value="product?.price"
+          placeholder="Product Price"/>
+      </fieldset>
+    </fieldset>
+
+    <p class="mb-3 p-2"><button type="button" class="btn btn-success" [disabled]="!productAdminForm.valid"  (click)="submitAdminForm()">Update Product</button></p>
+  </form>
+</div>
+
+<div *ngIf="!isAdmin">
+  <table class="table table-light">
+    <tbody>
+    <tr>
+      <th scope="row">Name</th>
+      <td>{{ product?.name }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Price</th>
+      <td>{{ product?.price | currency:'USD' }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Created At</th>
+      <td>{{ product?.createdAt }}</td>
+    </tr>
+    </tbody>
+  </table>
+  <form [formGroup]="productForm">
+    <fieldset [disabled]="isSubmitting">
+      <fieldset class="form-group">
+        <textarea class="form-control form-control-md"
+          formControlName="description"
+          type="text"
+          placeholder="Description"></textarea>
+      </fieldset>
+    </fieldset>
+
+    <p class="mb-3 p-2"><button type="button" class="btn-dark" [disabled]="!productForm.valid"  (click)="submitForm()">Buy Product</button></p>
+  </form>
+</div>
