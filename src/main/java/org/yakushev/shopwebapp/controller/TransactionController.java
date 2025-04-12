@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.yakushev.shopwebapp.dto.TransactionRequest;
 import org.yakushev.shopwebapp.model.Transaction;
 import org.yakushev.shopwebapp.model.User;
-import org.yakushev.shopwebapp.security.JwtTokenRepository;
+import org.yakushev.shopwebapp.repository.JwtTokenRepository;
 import org.yakushev.shopwebapp.service.TransactionService;
 import org.yakushev.shopwebapp.service.UserService;
 

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.yakushev.shopwebapp.model.User;
 import org.yakushev.shopwebapp.repository.PageableUserRepository;
 import org.yakushev.shopwebapp.repository.UserRepository;
-import org.yakushev.shopwebapp.security.JwtTokenRepository;
+import org.yakushev.shopwebapp.repository.JwtTokenRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 

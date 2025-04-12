@@ -1,4 +1,4 @@
-package org.yakushev.shopwebapp.security;
+package org.yakushev.shopwebapp.repository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

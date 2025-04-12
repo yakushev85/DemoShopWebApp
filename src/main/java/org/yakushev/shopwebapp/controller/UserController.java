@@ -10,7 +10,7 @@ import org.yakushev.shopwebapp.dto.PasswordRequest;
 import org.yakushev.shopwebapp.dto.UserRequest;
 import org.yakushev.shopwebapp.dto.UserResponse;
 import org.yakushev.shopwebapp.model.User;
-import org.yakushev.shopwebapp.security.JwtTokenRepository;
+import org.yakushev.shopwebapp.repository.JwtTokenRepository;
 import org.yakushev.shopwebapp.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;

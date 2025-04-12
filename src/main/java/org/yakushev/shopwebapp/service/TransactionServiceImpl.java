@@ -1,6 +1,5 @@
 package org.yakushev.shopwebapp.service;
 
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,11 +9,9 @@ import org.yakushev.shopwebapp.dto.TransactionRequest;
 import org.yakushev.shopwebapp.model.Transaction;
 import org.yakushev.shopwebapp.repository.PageableTransactionRepository;
 import org.yakushev.shopwebapp.repository.TransactionRepository;
-import org.yakushev.shopwebapp.security.JwtTokenRepository;
+import org.yakushev.shopwebapp.repository.JwtTokenRepository;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {

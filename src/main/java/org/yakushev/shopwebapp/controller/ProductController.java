@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import org.yakushev.shopwebapp.model.Product;
-import org.yakushev.shopwebapp.security.JwtTokenRepository;
+import org.yakushev.shopwebapp.repository.JwtTokenRepository;
 import org.yakushev.shopwebapp.service.ProductService;
 import org.yakushev.shopwebapp.service.UserService;
 

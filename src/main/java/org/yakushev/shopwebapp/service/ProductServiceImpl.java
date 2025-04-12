@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.yakushev.shopwebapp.model.Product;
 import org.yakushev.shopwebapp.repository.PageableProductRepository;
 import org.yakushev.shopwebapp.repository.ProductRepository;
-import org.yakushev.shopwebapp.security.JwtTokenRepository;
+import org.yakushev.shopwebapp.repository.JwtTokenRepository;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
