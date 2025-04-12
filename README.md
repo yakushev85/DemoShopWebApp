@@ -12,7 +12,7 @@ Run docker using `docker compose up`.
 
 ## Test
 
-Open in browser http://0.0.0.0:8080/ or http://localhost:8080/
+Open in browser http://localhost:4200/
 
 Swagger documentation: http://localhost:8080/swagger-ui/index.html
 

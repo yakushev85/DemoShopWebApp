@@ -10,28 +10,34 @@ import org.yakushev.shopwebapp.dto.PasswordRequest;
 import org.yakushev.shopwebapp.dto.UserRequest;
 import org.yakushev.shopwebapp.dto.UserResponse;
 import org.yakushev.shopwebapp.model.User;
+import org.yakushev.shopwebapp.security.JwtTokenRepository;
 import org.yakushev.shopwebapp.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@CrossOrigin(origins = {"http://localhost:8080/", "http://localhost:4200/"})
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtTokenRepository jwtTokenRepository;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Page<User> getAll(@RequestParam(name="page", defaultValue = "0") Integer page,
                              @RequestParam(name="size", defaultValue = "10") Integer size,
                              HttpServletRequest request) {
+        jwtTokenRepository.auth(request);
         userService.checkAdminRole(request);
         return userService.getAll(PageRequest.of(page, size));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public UserResponse getItemById(@PathVariable Long id, HttpServletRequest request) {
+        jwtTokenRepository.auth(request);
         userService.checkAdminRole(request);
         return UserResponse.fromUser(userService.getById(id));
     }
@@ -39,6 +45,7 @@ public class UserController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @Transactional
     public UserResponse add(@RequestBody UserRequest userRequest, HttpServletRequest request) {
+        jwtTokenRepository.auth(request);
         userService.checkAdminRole(request);
         return UserResponse.fromUser(userService.add(userRequest.toUser()));
     }
@@ -46,6 +53,7 @@ public class UserController {
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @Transactional
     public UserResponse update(@RequestBody UserRequest userRequest, HttpServletRequest request) {
+        jwtTokenRepository.auth(request);
         userService.checkAdminRole(request);
         return UserResponse.fromUser(userService.update(userRequest.toUser()));
     }
@@ -53,6 +61,7 @@ public class UserController {
     @RequestMapping(value = "/password", method = RequestMethod.POST)
     @Transactional
     public UserResponse setPassword(@RequestBody PasswordRequest passwordRequest, HttpServletRequest request) {
+        jwtTokenRepository.auth(request);
         User user = userService.getUserFromRequest(request);
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

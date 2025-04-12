@@ -1,6 +1,7 @@
 package org.yakushev.shopwebapp.controller;
 
-import org.apache.commons.lang3.StringUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +13,9 @@ import org.yakushev.shopwebapp.model.User;
 import org.yakushev.shopwebapp.security.JwtTokenRepository;
 import org.yakushev.shopwebapp.service.UserService;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-@CrossOrigin(origins = {"http://localhost:8080/", "http://localhost:4200/"})
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthController {
     @Autowired
     private UserService userService;

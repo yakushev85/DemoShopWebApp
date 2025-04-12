@@ -8,17 +8,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.yakushev.shopwebapp.security.JwtFilter;
-import org.yakushev.shopwebapp.security.JwtTokenRepository;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
-
-    @Autowired
-    private JwtTokenRepository jwtTokenRepository;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")
@@ -27,13 +21,12 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterAt(new JwtFilter(jwtTokenRepository, resolver), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()
                 )
-                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
+
 }

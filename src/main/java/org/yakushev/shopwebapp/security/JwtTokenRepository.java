@@ -2,6 +2,7 @@ package org.yakushev.shopwebapp.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -76,5 +77,26 @@ public class JwtTokenRepository {
                 .parseClaimsJws(token)
                 .getBody()
                 .getExpiration();
+    }
+
+    public void auth(HttpServletRequest request) {
+        String token = loadToken(request);
+
+        if (StringUtils.isEmpty(token)) {
+            throw new JwtAuthException("JWT token is required.");
+        }
+
+        String username = getUsernameFromToken(token);
+
+        if (StringUtils.isEmpty(username)) {
+            throw new JwtAuthException("Invalid JWT token.");
+        }
+
+        Date expirationDate = getExpirationDateFromToken(token);
+        long diff = expirationDate.getTime() - (new Date()).getTime();
+
+        if (diff <= 0) {
+            throw new JwtAuthException("JWT token is expired.");
+        }
     }
 }

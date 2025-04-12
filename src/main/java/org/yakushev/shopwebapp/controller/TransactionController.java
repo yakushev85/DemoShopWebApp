@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import org.yakushev.shopwebapp.dto.TransactionRequest;
 import org.yakushev.shopwebapp.model.Transaction;
 import org.yakushev.shopwebapp.model.User;
+import org.yakushev.shopwebapp.security.JwtTokenRepository;
 import org.yakushev.shopwebapp.service.TransactionService;
 import org.yakushev.shopwebapp.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@CrossOrigin(origins = {"http://localhost:8080/", "http://localhost:4200/"})
 @RestController
 @RequestMapping("/api/transactions")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TransactionController {
     @Autowired
     private TransactionService transactionService;
@@ -23,10 +24,15 @@ public class TransactionController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtTokenRepository jwtTokenRepository;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Page<Transaction> getAll(@RequestParam(name="page", defaultValue = "0") Integer page,
                                     @RequestParam(name="size", defaultValue = "10") Integer size,
                                     HttpServletRequest request) {
+        jwtTokenRepository.auth(request);
+
         if (userService.isAdminRole(request)) {
             return transactionService.getAll(PageRequest.of(page, size));
         } else {
@@ -38,6 +44,8 @@ public class TransactionController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Transaction getItemById(@PathVariable Long id, HttpServletRequest request) {
+        jwtTokenRepository.auth(request);
+
         User user = userService.getUserFromRequest(request);
 
         Transaction transaction = transactionService.getById(id);
@@ -53,6 +61,8 @@ public class TransactionController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @Transactional
     public Transaction add(@RequestBody TransactionRequest transactionDto, HttpServletRequest request) {
+        jwtTokenRepository.auth(request);
+
         if (!userService.isAdminRole(request)) {
             User user = userService.getUserFromRequest(request);
 
