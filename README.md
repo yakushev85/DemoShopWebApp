@@ -5,6 +5,7 @@ This project was created using Angular, Spring Boot, MySQL and Docker.
 ## Step 1
 
 Compile jar using `mvn install`.
+Build UI application: `cd demo-webshop-ui` and `ng build`.
 
 ## Step 2
 
