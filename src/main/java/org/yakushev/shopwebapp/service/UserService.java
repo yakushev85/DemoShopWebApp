@@ -23,4 +23,6 @@ public interface UserService {
 	void checkAdminRole(HttpServletRequest request);
 
 	boolean isAdminRole(HttpServletRequest request);
+
+	void logout(HttpServletRequest request);
 }

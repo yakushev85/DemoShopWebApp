@@ -1,5 +1,6 @@
 package org.yakushev.shopwebapp.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,11 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yakushev.shopwebapp.model.User;
+import org.yakushev.shopwebapp.repository.JwtTokenRepository;
 import org.yakushev.shopwebapp.repository.PageableUserRepository;
 import org.yakushev.shopwebapp.repository.UserRepository;
-import org.yakushev.shopwebapp.repository.JwtTokenRepository;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -98,5 +97,18 @@ public class UserServiceImpl implements UserService {
 		User user = getUserFromRequest(request);
 
 		return user != null && user.getRole() != null && user.getRole().equalsIgnoreCase("admin");
+	}
+
+	@Override
+	public void logout(HttpServletRequest request) {
+		String token = jwtTokenRepository.loadToken(request);
+		if (token == null) {
+			return;
+		}
+
+		String username = jwtTokenRepository.getUsernameFromToken(token);
+		User user = userRepository.findByUsername(username);
+		user.setToken("");
+		userRepository.save(user);
 	}
 }

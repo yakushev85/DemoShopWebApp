@@ -81,4 +81,11 @@ public class AuthController {
 
         throw new IllegalArgumentException("Username is already used.");
     }
+
+    @Transactional
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    public String logoutUser(HttpServletRequest request) {
+        userService.logout(request);
+        return "";
+    }
 }

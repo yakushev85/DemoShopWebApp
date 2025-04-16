@@ -2,14 +2,15 @@ package org.yakushev.shopwebapp.repository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.yakushev.shopwebapp.model.User;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -18,6 +19,9 @@ import java.util.UUID;
 @Component
 public class JwtTokenRepository {
     private static final String BEARER_PREFIX = "Bearer ";
+
+    @Autowired
+    UserRepository userRepository;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -30,7 +34,7 @@ public class JwtTokenRepository {
 
         String username = (String) httpServletRequest.getAttribute(User.class.getName());
 
-        return Jwts.builder()
+        String token = Jwts.builder()
                     .setId(id)
                     .setSubject(username)
                     .setIssuedAt(now)
@@ -38,6 +42,12 @@ public class JwtTokenRepository {
                     .setExpiration(exp)
                     .signWith(SignatureAlgorithm.HS256, secret)
                     .compact();
+
+        User user = userRepository.findByUsername(username);
+        user.setToken(token);
+        userRepository.save(user);
+
+        return token;
     }
 
     public void saveToken(String token, HttpServletRequest request, HttpServletResponse response) {
@@ -54,15 +64,16 @@ public class JwtTokenRepository {
         String tokenFromHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (tokenFromHeader != null) {
-            return tokenFromHeader.substring(BEARER_PREFIX.length());
-        } else {
-            return null;
-        }
-    }
+            String token = tokenFromHeader.substring(BEARER_PREFIX.length());
+            String username = getUsernameFromToken(token);
+            User user = userRepository.findByUsername(username);
 
-    public void clearToken(HttpServletResponse response) {
-        if (response.getHeaderNames().contains(HttpHeaders.AUTHORIZATION))
-            response.setHeader(HttpHeaders.AUTHORIZATION, "");
+            if (user != null && user.getToken().equals(token)) {
+                return token;
+            }
+        }
+
+        return null;
     }
 
     public String getUsernameFromToken(String token) {
@@ -83,13 +94,7 @@ public class JwtTokenRepository {
         String token = loadToken(request);
 
         if (StringUtils.isEmpty(token)) {
-            throw new JwtAuthException("JWT token is required.");
-        }
-
-        String username = getUsernameFromToken(token);
-
-        if (StringUtils.isEmpty(username)) {
-            throw new JwtAuthException("Invalid JWT token.");
+            throw new JwtAuthException("Invalid or empty JWT token.");
         }
 
         Date expirationDate = getExpirationDateFromToken(token);

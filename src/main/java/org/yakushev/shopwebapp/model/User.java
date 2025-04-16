@@ -26,6 +26,9 @@ public class User extends MergeableBean implements Serializable {
 
 	private String role;
 
+	@JsonIgnore
+	private String token;
+
 	@CreationTimestamp
 	private Date createdAt;
 }

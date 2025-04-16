@@ -61,7 +61,10 @@ export class UserService {
   }
 
   logout() {
-    this.purgeAuth();
+    this.apiService.get("/logout").subscribe(
+      (value) => {
+        this.purgeAuth();
+      });
   }
 
 
